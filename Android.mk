@@ -58,12 +58,18 @@ ifeq ($(NO_FALLBACK_FONT),true)
 endif
 
 LOCAL_CFLAGS += \
-	-fPIC \
+    -O3 \
+	-funsafe-math-optimizations \
 	-Wno-unused-parameter \
 	-U_FORTIFY_SOURCE \
-	-D_FORTIFY_SOURCE=1 \
+	-D_FORTIFY_SOURCE=0 \
 	-DSKIA_IMPLEMENTATION=1 \
 	-Wno-clobbered
+
+LOCAL_CFLAGS += \
+    -fstrict-aliasing \
+    -Wstrict-aliasing \
+    -Werror=strict-aliasing
 
 LOCAL_CPPFLAGS := \
 	-std=c++11 \
@@ -588,7 +594,6 @@ LOCAL_SRC_FILES := \
 	src/core/SkFlate.cpp
 
 LOCAL_SHARED_LIBRARIES := \
-	liblog \
 	libGLESv2 \
 	libEGL \
 	libz \
@@ -776,7 +781,7 @@ include $(BUILD_SHARED_LIBRARY)
 #
 
 # benchmark (timings)
-#include $(BASE_PATH)/bench/Android.mk
+# include $(BASE_PATH)/bench/Android.mk
 
 # diamond-master (one test to rule them all)
-#include $(BASE_PATH)/dm/Android.mk
+# include $(BASE_PATH)/dm/Android.mk
